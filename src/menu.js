@@ -15,11 +15,11 @@ export function createFilterButtons() {
 }
 //DEBE imprimir en pantalla los productos, con su Título, descripción y precio en € y botón de añadir.
 
-export function createProductCards() {
+export function createProductCards(productArray) {
   const productsContainer = document.getElementById("products");
   productsContainer.innerHTML = "";
 
-  products.forEach((product) => {
+  productArray.forEach((product) => {
     const productDiv = document.createElement("div");
     productDiv.className = "product-container";
 
