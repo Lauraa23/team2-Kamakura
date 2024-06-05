@@ -1,5 +1,6 @@
+
+//DEBE imprimir en pantalla la información de filtros.
 import { filters, products } from "../assets/data/data.js";
-import { addToCart } from "./cart.js"; // Importa la función addToCart desde cart.js
 
 export function createFilterButtons() {
   const filtersContainer = document.getElementById("filters");
@@ -12,8 +13,9 @@ export function createFilterButtons() {
     filtersContainer.appendChild(button);
   });
 }
+//DEBE imprimir en pantalla los productos, con su Título, descripción y precio en € y botón de añadir.
 
-export function createProductCards(products) {
+export function createProductCards() {
   const productsContainer = document.getElementById("products");
   productsContainer.innerHTML = "";
 
@@ -36,9 +38,6 @@ export function createProductCards(products) {
     const addButton = document.createElement("button");
     addButton.className = "add-button";
     addButton.textContent = "Añadir";
-    addButton.addEventListener("click", () => {
-      addToCart(product); // Llama a la función addToCart cuando se hace clic en el botón
-    });
 
     priceContainer.appendChild(price);
     priceContainer.appendChild(addButton);
@@ -47,6 +46,8 @@ export function createProductCards(products) {
     productDiv.appendChild(description);
     productDiv.appendChild(priceContainer);
 
-    productsContainer.appendChild(productDiv);
+
+   productsContainer.appendChild(productDiv);
   });
 }
+
