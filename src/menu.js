@@ -46,6 +46,8 @@ export function createProductCards() {
     productDiv.appendChild(description);
     productDiv.appendChild(priceContainer);
 
-    productsContainer.appendChild(productDiv);
+
+   productsContainer.appendChild(productDiv);
   });
 }
+
