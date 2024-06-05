@@ -2,21 +2,19 @@
 
 import { products } from "../assets/data/data.js";
 
+export function searchProducts(filtro) {
+  let arrayFiltro = [];
 
+  if (filtro === "todos") {
+    arrayFiltro = products;
+  } else {
+    arrayFiltro = products.filter(product => product.category === filtro);
+  }
 
-export function searchProducts({filtro}){
+  for (let i in arrayFiltro) {
+    console.log(arrayFiltro[i].name + " " + arrayFiltro[i].price + " " + arrayFiltro[i].description);
+  }
 
-let arrayFiltro = ""
-
-if(filtro === "todos"){
-
-    arrayFiltro = products
-}else{
-    arrayFiltro = products.filter((products => products.category === filtro))
+  return arrayFiltro;
 }
 
-
-for (let i in arrayFiltro){ console.log(arrayFiltro[i].name+" "+arrayFiltro[i].price+" "+arrayFiltro[i].description)}
-
-return arrayFiltro
-}
