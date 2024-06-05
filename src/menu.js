@@ -38,6 +38,7 @@ export function createProductCards(productArray) {
     const addButton = document.createElement("button");
     addButton.className = "add-button";
     addButton.textContent = "Añadir";
+    addButton.setAttribute("data-id", product.id);//añadí(M)
 
     priceContainer.appendChild(price);
     priceContainer.appendChild(addButton);

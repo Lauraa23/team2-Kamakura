@@ -40,7 +40,7 @@
                 <h2>Carrito</h2>
                 <div id="cart-products">
                     <!-- Producto en el carrito de muestra (así se debería ver) -->
-                    <div class="cart-container">
+                    <!--<div class="cart-container">
                         <button class="close-button"><img src="./assets/img/close.svg" alt="close"></button>
                         <div class="text-container">
                             <h3>Añade un plato</h3>
@@ -51,8 +51,8 @@
                             <p class="quantity">1</p>
                             <button>-</button>
                         </div>
-                    </div>
-                    <h3>Añade un plato a tu menú</h3>
+                    </div>-->
+                    <h3 class="cart-product-empty">Añade un plato a tu menú</h3><!--añadí la clase para borrar(M)-->
                 </div>
                 <h2 id="cart-total">Total: €</h2>
                 <button class="proceedPay-button" id="proceedPay-button">Proceder al pago</button>
@@ -74,6 +74,8 @@
         </aside>
     </div>
     <script type="module" src="./src/events.js"></script>
+    <script type="module" src="/src/cart.js"></script>
 </body>
 <script type="module" src="/src/events.js"></script>
+<script type="module" src="/src/cart.js"></script>
 </html>
