@@ -10,6 +10,20 @@ document.body.addEventListener('click', (event) => {
     addToCart(event.target.getAttribute('data-id'));
   }
 });
+ document.addEventListener('DOMContentLoaded', () => {
+  const cartButton = document.getElementById('cart');
+  const cartContainer = document.getElementById('cart-container');
+
+  cartContainer.style.display = 'none';
+
+  cartButton.addEventListener('click', () => {
+    if(cartContainer.style.display === 'none') {
+      cartContainer.style.display = 'block';
+    } else {
+      cartContainer.style.display = 'none';
+    }
+  });
+ });
 
 document.addEventListener("DOMContentLoaded", () => {
   createFilterButtons();

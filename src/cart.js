@@ -24,6 +24,7 @@ export function addToCart(productId) {
 
     // buscamos si existe en el carrito
    let cartContainerDiv = document.querySelector('.cart-container[data-id="' + productId + '"]');
+   
 
     if (cartContainerDiv) {
         // solo actualizar la cantidad
