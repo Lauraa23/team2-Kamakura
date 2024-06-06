@@ -16,8 +16,6 @@ if(filter === "todos"){
 }
 
 
-for (let i in arrayFiltro) { 
-    console.log(arrayFiltro[i].name+" "+arrayFiltro[i].price+" "+arrayFiltro[i].description)}
     
 createProductCards(arrayFiltro);
 
