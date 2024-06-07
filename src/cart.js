@@ -1,5 +1,8 @@
 import { products } from "../assets/data/data.js";
 
+//product.price
+let precioTotal = 0
+
 export function addToCart(productId) {
   console.info("inicio de añadir el producto => " + productId);
 
@@ -7,6 +10,9 @@ export function addToCart(productId) {
   products.forEach((product) => {
     if (product.id === Number(productId)) {
       productElement = product;
+      precioTotal += product.price
+      
+      
       return false;
     }
   });
@@ -15,11 +21,12 @@ export function addToCart(productId) {
   if (productElement) {
     // Buscamos si existe en el carrito
     let cartContainerDiv = document.querySelector('.cart-container[data-id="' + productId + '"]');
-    
+
     if (cartContainerDiv) {
       // Solo actualizar la cantidad
       console.log('solo actualizar la cantidad');
     } else {
+
       cartContainerDiv = document.createElement("div");
       cartContainerDiv.className = "cart-container";
       cartContainerDiv.setAttribute("data-id", productId);
@@ -41,6 +48,10 @@ export function addToCart(productId) {
 
       const priceH5 = document.createElement("h5");
       priceH5.textContent = "€ " + productElement.price.toFixed(2);
+      priceH5.value = parseFloat(productElement.price)
+      
+      const totalPriceH2 = document.getElementById("cart-total")
+      totalPriceH2.textContent = "Total " + precioTotal + " €"
 
       textContainerDiv.appendChild(titleH3);
       textContainerDiv.appendChild(priceH5);
@@ -58,16 +69,23 @@ export function addToCart(productId) {
       const decreaseButton = document.createElement("button");
       decreaseButton.textContent = "-";
 
-      increaseButton.addEventListener("click", function() {
+      increaseButton.addEventListener("click", function () {
         const currentQuantity = parseInt(quantityP.textContent);
         quantityP.textContent = currentQuantity + 1;
+        //const priceQuantity = parseInt() null 
+        precioTotal += priceH5.value 
+        totalPriceH2.textContent = "Total " + precioTotal + " €"
+
       });
 
-      decreaseButton.addEventListener("click", function() {
+      decreaseButton.addEventListener("click", function () {
         const currentQuantity = parseInt(quantityP.textContent);
+        
         // Permitir que la cantidad llegue a 0
         if (currentQuantity > 0) {
           quantityP.textContent = currentQuantity - 1;
+          precioTotal -= priceH5.value // -> precioTotal -= productElement.price
+          totalPriceH2.textContent = "Total " + precioTotal + " €"
         }
         // Eliminar el producto del carrito si la cantidad llega a 0
         if (parseInt(quantityP.textContent) === 0) {
@@ -81,16 +99,19 @@ export function addToCart(productId) {
       quantityContainerDiv.appendChild(decreaseButton);
 
       cartContainerDiv.appendChild(closeButton);
-      cartContainerDiv.appendChild(textContainerDiv);  
+      cartContainerDiv.appendChild(textContainerDiv);
       cartContainerDiv.appendChild(quantityContainerDiv);
 
       document.querySelector("#cart-products").appendChild(cartContainerDiv);
-      closeButton.addEventListener("click", function() {
+      closeButton.addEventListener("click", function () {
+        
+        precioTotal -= (quantityP.textContent * priceH5.value)
+        totalPriceH2.textContent = "Total " + precioTotal + " €"
         // Obtener el contenedor del producto y eliminarlo del DOM
         cartContainerDiv.remove();
         checkIfCartIsEmpty(); // Verificar si el carrito está vacío
       });
-      
+
       // Ocultar el mensaje "Añade un plato a tu menú" cuando se añade un producto
       hideEmptyCartMessage();
     }
@@ -108,9 +129,14 @@ function hideEmptyCartMessage() {
 // Función para mostrar el mensaje de carrito vacío
 function showEmptyCartMessage() {
   const cartProducts = document.querySelector("#cart-products");
-  const emptyMessage = document.createElement("h3");
-  emptyMessage.textContent = "Añade un plato a tu menú";
-  cartProducts.appendChild(emptyMessage);
+  const existingMessage = cartProducts.querySelector("h3");
+  if (!existingMessage) {
+    const emptyMessage = document.createElement("h3");
+    emptyMessage.textContent = "Añade un plato a tu menú";
+    cartProducts.appendChild(emptyMessage);
+  } else {
+    existingMessage.style.display = 'block';
+  }
 }
 
 // Función para verificar si el carrito está vacío
