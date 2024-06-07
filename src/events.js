@@ -11,6 +11,10 @@ document.body.addEventListener('click', (event) => {
   }
 });
  document.addEventListener('DOMContentLoaded', () => {
+  const cartcont=document.querySelector(".cart-container");
+  if (cartcont) {
+    cartcont.remove();
+  }
   const cartButton = document.getElementById('cart');
   const cartContainer = document.getElementById('cart-container');
 

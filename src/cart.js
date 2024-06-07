@@ -13,7 +13,7 @@ export function addToCart(productId) {
     }
   });
 
-  //para que se borre "añade un plato a tu menu"
+//para que se borre "añade un plato a tu menu"
   const cartProductMessage = document.querySelector(".cart-product-empty");
   if (cartProductMessage) {
     cartProductMessage.remove();
@@ -70,6 +70,18 @@ export function addToCart(productId) {
       const decreaseButton = document.createElement("button");
       decreaseButton.textContent = "-";
 
+      increaseButton.addEventListener("click", function() {
+        const currentQuantity = parseInt(quantityP.textContent);
+        quantityP.textContent = currentQuantity + 1;
+      });
+      
+      decreaseButton.addEventListener("click", function() {
+        const currentQuantity = parseInt(quantityP.textContent);
+        // asegurarse de que la cantidad no sea menor que 1
+        if (currentQuantity > 1) {
+          quantityP.textContent = currentQuantity - 1;
+        }
+      });
       quantityContainerDiv.appendChild(increaseButton);
       quantityContainerDiv.appendChild(quantityP);
       quantityContainerDiv.appendChild(decreaseButton);
@@ -79,6 +91,10 @@ export function addToCart(productId) {
       cartContainerDiv.appendChild(quantityContainerDiv);
 
       document.querySelector("#cart-products").appendChild(cartContainerDiv);
+      closeButton.addEventListener("click", function() {
+        // Obtener el contenedor del producto y eliminarlo del DOM
+        cartContainerDiv.remove();
+      });
 
     }
 
