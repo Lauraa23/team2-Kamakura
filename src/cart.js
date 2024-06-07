@@ -80,6 +80,9 @@ export function addToCart(productId) {
 
       document.querySelector("#cart-products").appendChild(cartContainerDiv);
 
+      
+      closeButton.addEventListener("click", function() {
+      cartContainerDiv.remove(); });
     }
 
   }
