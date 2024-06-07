@@ -92,7 +92,7 @@ export function addToCart(productId) {
 
       document.querySelector("#cart-products").appendChild(cartContainerDiv);
       closeButton.addEventListener("click", function() {
-        // Obtener el contenedor del producto y eliminarlo del DOM
+      
         cartContainerDiv.remove();
       });
 

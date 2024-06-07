@@ -35,8 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
   createFilterButtons();
   createProductCards(products);
 
-  //Intenta separar los eventos en este archivo.
-
   const buttons = document.getElementsByClassName("filter");
 
   for (let i = 0; i < buttons.length; i++) {
