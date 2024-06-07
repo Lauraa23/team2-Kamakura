@@ -1,19 +1,59 @@
 //Aquí intenta poner las funcionalidades del recibo
 
-export function generateReceipt([shoppingCartProducts]) {
-  let finalPrice = 0;
+const receiptContainer = document.getElementById("receipt-container");
+const receiptProduct = document.getElementById("receipt-product");
+const receiptTotal = document.getElementById("receipt-total");
 
-  shoppingCartProducts.forEach((product) => {
-    document.getElementById("product-name").textContent = product.name;
+function showReceipt() {
+  updateReceipt();
+  receiptContainer.style.display = "block";
+}
+function closeReceipt() {
+  receiptContainer.style.display = "none";
+}
 
-    document.getElementById(
-      "receipt-quantity"
-    ).textContent = `Cantidad: ${product.quantity}`;
+function updateReceipt() {
+  receiptProduct.innerHTML = "";
 
-    document.getElementById("receipt-subtotal").textContent = product.subtotal;
+  const cartProducts = document.querySelectorAll(".cart-container");
 
-    finalPrice += product.subtotal;
+  let total = 0;
+
+  cartProducts.forEach((product) => {
+    const title = product.querySelector(".text-container h3").textContent;
+    const priceText = product.querySelector(".text-container h5").textContent;
+    const quantity = product.querySelector(".quantity").textContent;
+
+    const price = parseFloat(priceText.replace("€ ", ""));
+    const subtotal = price * parseInt(quantity);
+
+    total += subtotal;
+
+    const productDiv = document.createElement("div");
+    productDiv.className = "receipt-product";
+
+    const productTitle = document.createElement("h3");
+    productTitle.textContent = title;
+
+    const productDetails = document.createElement("div");
+    productDetails.className = "receipt-price";
+
+    const productQuantity = document.createElement("p");
+    productQuantity.textContent = `Cantidad: ${quantity}`;
+
+    const productSubtotal = document.createElement("h5");
+    productSubtotal.textContent = `Subtotal:  € ${subtotal.toFixed(2)}`;
+
+    productDetails.appendChild(productQuantity);
+    productDetails.appendChild(productSubtotal);
+
+    productDiv.appendChild(productTitle);
+    productDiv.appendChild(productDetails);
+
+    receiptProduct.appendChild(productDiv);
   });
 
-  document.getElementById("receipt-total").innerHTML = finalPrice;
+  receiptTotal.textContent = `Total: € ${total.toFixed(2)}`;
 }
+
+export { showReceipt, closeReceipt };
