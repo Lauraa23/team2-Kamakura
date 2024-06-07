@@ -18,5 +18,6 @@ if(filter === "todos"){
 
 createProductCards(arrayFiltro);
 
-return arrayFiltro
+  return arrayFiltro;
 }
+
