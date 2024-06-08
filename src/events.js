@@ -4,32 +4,38 @@ import { createFilterButtons, createProductCards } from "./menu.js";
 import { searchProducts } from "./searcher.js";
 import { addToCart } from "./cart.js";
 import { products } from "../assets/data/data.js";
-import { showReceipt, closeReceipt } from "./receipt.js";
+import { closeReceipt, showReceipt } from "./receipt.js";
 
 document.body.addEventListener("click", (event) => {
-  if (event.target && event.target.classList.contains("add-button")) {
+  const cartProductText = document.querySelector(".cart-products h3");
+  const dishCart = document.getElementById("cart-products");
+  if (
+    event.target &&
+    event.target.classList.contains("add-button") &&
+    dishCart
+  ) {
     addToCart(event.target.getAttribute("data-id"));
+    cartProductText.remove();
   }
 });
- document.addEventListener('DOMContentLoaded', () => {
-  const cartcont=document.querySelector(".cart-container");
+document.addEventListener("DOMContentLoaded", () => {
+  const cartcont = document.querySelector(".cart-container");
   if (cartcont) {
     cartcont.remove();
   }
-  const cartButton = document.getElementById('cart');
-  const cartContainer = document.getElementById('cart-container');
+  const cartButton = document.getElementById("cart");
+  const cartContainer = document.getElementById("cart-container");
 
-  cartContainer.style.display = 'none';
+  cartContainer.style.display = "none";
 
-  cartButton.addEventListener('click', () => {
-    if(cartContainer.style.display === 'none') {
-      cartContainer.style.display = 'block';
+  cartButton.addEventListener("click", () => {
+    if (cartContainer.style.display === "none") {
+      cartContainer.style.display = "flex";
     } else {
-      cartContainer.style.display = 'none';
+      cartContainer.style.display = "none";
     }
   });
- });
-
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   createFilterButtons();
@@ -53,18 +59,3 @@ document
 document
   .getElementById("close-receipt")
   .addEventListener("click", closeReceipt);
-
-document.addEventListener("DOMContentLoaded", () => {
-  const cartButton = document.getElementById("cart");
-  const cartContainer = document.getElementById("cart-container");
-
-  cartContainer.style.display = "none";
-
-  cartButton.addEventListener("click", () => {
-    if (cartContainer.style.display === "none") {
-      cartContainer.style.display = "block";
-    } else {
-      cartContainer.style.display = "none";
-    }
-  });
-});
