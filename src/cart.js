@@ -1,8 +1,9 @@
-//DEBE contener las funcionalidades del carrito de compras.
-
 import { products } from "../assets/data/data.js";
 
 let productsToReceipt = [];
+
+//product.price
+let precioTotal = 0
 
 export function addToCart(productId) {
   console.info("inicio de añadir el producto => " + productId);
@@ -14,6 +15,7 @@ export function addToCart(productId) {
     products.forEach((product) => {
       if (product.id === Number(productId)) {
         productElement = product;
+        precioTotal += product.price
         productsToReceipt.push(product);
         return false;
       }
@@ -29,10 +31,8 @@ export function addToCart(productId) {
 
   // validamos si existe el producto en la lista data.js
   if (productElement) {
-    // buscamos si existe en el carrito
-    let cartContainerDiv = document.querySelector(
-      '.cart-container[data-id="' + productId + '"]'
-    );
+    // Buscamos si existe en el carrito
+    let cartContainerDiv = document.querySelector('.cart-container[data-id="' + productId + '"]');
 
     if (cartContainerDiv) {
       // solo actualizar la cantidad
@@ -59,6 +59,10 @@ export function addToCart(productId) {
 
       const priceH5 = document.createElement("h5");
       priceH5.textContent = "€ " + productElement.price.toFixed(2);
+      priceH5.value = parseFloat(productElement.price)
+      
+      const totalPriceH2 = document.getElementById("cart-total")
+      totalPriceH2.textContent = "Total " + precioTotal + " €"
 
       textContainerDiv.appendChild(titleH3);
       textContainerDiv.appendChild(priceH5);
@@ -79,15 +83,28 @@ export function addToCart(productId) {
       increaseButton.addEventListener("click", function () {
         const currentQuantity = parseInt(quantityP.textContent);
         quantityP.textContent = currentQuantity + 1;
+        //const priceQuantity = parseInt() null 
+        precioTotal += priceH5.value 
+        totalPriceH2.textContent = "Total " + precioTotal + " €"
+
       });
 
       decreaseButton.addEventListener("click", function () {
         const currentQuantity = parseInt(quantityP.textContent);
-        // asegurarse de que la cantidad no sea menor que 1
-        if (currentQuantity > 1) {
+        
+        // Permitir que la cantidad llegue a 0
+        if (currentQuantity > 0) {
           quantityP.textContent = currentQuantity - 1;
+          precioTotal -= priceH5.value // -> precioTotal -= productElement.price
+          totalPriceH2.textContent = "Total " + precioTotal + " €"
+        }
+        // Eliminar el producto del carrito si la cantidad llega a 0
+        if (parseInt(quantityP.textContent) === 0) {
+          cartContainerDiv.remove();
+          checkIfCartIsEmpty(); // Verificar si el carrito está vacío
         }
       });
+
       quantityContainerDiv.appendChild(increaseButton);
       quantityContainerDiv.appendChild(quantityP);
       quantityContainerDiv.appendChild(decreaseButton);
@@ -107,9 +124,51 @@ export function addToCart(productId) {
 
       document.querySelector("#cart-products").appendChild(cartContainerDiv);
       closeButton.addEventListener("click", function () {
+        
+        precioTotal -= (quantityP.textContent * priceH5.value)
+        totalPriceH2.textContent = "Total " + precioTotal + " €"
+        // Obtener el contenedor del producto y eliminarlo del DOM
         cartContainerDiv.remove();
         removeProductsFromCartData(productId);
+        checkIfCartIsEmpty(); // Verificar si el carrito está vacío
       });
+
+      // Ocultar el mensaje "Añade un plato a tu menú" cuando se añade un producto
+      hideEmptyCartMessage();
     }
   }
 }
+
+// Función para ocultar el mensaje de carrito vacío
+function hideEmptyCartMessage() {
+  const cartProductMessage = document.querySelector("#cart-products h3");
+  if (cartProductMessage && cartProductMessage.textContent === "Añade un plato a tu menú") {
+    cartProductMessage.style.display = 'none';
+  }
+}
+
+// Función para mostrar el mensaje de carrito vacío
+function showEmptyCartMessage() {
+  const cartProducts = document.querySelector("#cart-products");
+  const existingMessage = cartProducts.querySelector("h3");
+  if (!existingMessage) {
+    const emptyMessage = document.createElement("h3");
+    emptyMessage.textContent = "Añade un plato a tu menú";
+    cartProducts.appendChild(emptyMessage);
+  } else {
+    existingMessage.style.display = 'block';
+  }
+}
+
+// Función para verificar si el carrito está vacío
+function checkIfCartIsEmpty() {
+  const cartProducts = document.querySelector("#cart-products");
+  if (!cartProducts.querySelector(".cart-container")) {
+    showEmptyCartMessage();
+  }
+}
+
+// Inicializar el mensaje de carrito vacío si no hay productos en el carrito
+document.addEventListener("DOMContentLoaded", () => {
+  checkIfCartIsEmpty();
+});
