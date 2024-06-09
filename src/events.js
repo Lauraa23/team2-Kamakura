@@ -4,7 +4,7 @@ import { createFilterButtons, createProductCards } from "./menu.js";
 import { searchProducts } from "./searcher.js";
 import { addToCart } from "./cart.js";
 import { products } from "../assets/data/data.js";
-import { closeReceipt, showReceipt } from "./receipt.js";
+import { closeReceipt, showReceipt, messageToPayButton } from "./receipt.js";
 
 document.body.addEventListener("click", (event) => {
   const cartProductText = document.querySelector(".cart-products h3");
@@ -18,6 +18,7 @@ document.body.addEventListener("click", (event) => {
     cartProductText.remove();
   }
 });
+
 document.addEventListener("DOMContentLoaded", () => {
   const cartcont = document.querySelector(".cart-container");
   if (cartcont) {
@@ -59,3 +60,7 @@ document
 document
   .getElementById("close-receipt")
   .addEventListener("click", closeReceipt);
+
+document
+  .getElementById("pay-button")
+  .addEventListener("click", messageToPayButton);

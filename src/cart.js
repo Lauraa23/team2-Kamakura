@@ -3,26 +3,27 @@ import { products } from "../assets/data/data.js";
 let productsToReceipt = [];
 
 //product.price
-let precioTotal = 0
+let precioTotal = 0;
 
-export function addToCart(productId) {
-  console.info("inicio de añadir el producto => " + productId);
-
+function addToCart(productId) {
   let productElement = null;
-  const productExists = productsToReceipt.some(product => product.id === Number(productId));
+  const productExists = productsToReceipt.some(
+    (product) => product.id === Number(productId)
+  );
 
   if (!productExists) {
     products.forEach((product) => {
       if (product.id === Number(productId)) {
         productElement = product;
-        precioTotal += product.price
+        precioTotal += product.price;
+        product.quantity = 1;
         productsToReceipt.push(product);
         return false;
       }
     });
-    console.log(productsToReceipt);
+    
   }
-  
+
   //para que se borre "añade un plato a tu menu"
   const cartProductMessage = document.querySelector(".cart-product-empty");
   if (cartProductMessage) {
@@ -32,11 +33,12 @@ export function addToCart(productId) {
   // validamos si existe el producto en la lista data.js
   if (productElement) {
     // Buscamos si existe en el carrito
-    let cartContainerDiv = document.querySelector('.cart-container[data-id="' + productId + '"]');
+    let cartContainerDiv = document.querySelector(
+      '.cart-container[data-id="' + productId + '"]'
+    );
 
     if (cartContainerDiv) {
       // solo actualizar la cantidad
-      console.log("solo actualizar la cantidad");
     } else {
       cartContainerDiv = document.createElement("div");
       cartContainerDiv.className = "cart-container";
@@ -59,10 +61,10 @@ export function addToCart(productId) {
 
       const priceH5 = document.createElement("h5");
       priceH5.textContent = "€ " + productElement.price.toFixed(2);
-      priceH5.value = parseFloat(productElement.price)
-      
-      const totalPriceH2 = document.getElementById("cart-total")
-      totalPriceH2.textContent = "Total " + precioTotal + " €"
+      priceH5.value = parseFloat(productElement.price);
+
+      const totalPriceH2 = document.getElementById("cart-total");
+      totalPriceH2.textContent = "Total " + precioTotal + " €";
 
       textContainerDiv.appendChild(titleH3);
       textContainerDiv.appendChild(priceH5);
@@ -83,20 +85,34 @@ export function addToCart(productId) {
       increaseButton.addEventListener("click", function () {
         const currentQuantity = parseInt(quantityP.textContent);
         quantityP.textContent = currentQuantity + 1;
-        //const priceQuantity = parseInt() null 
-        precioTotal += priceH5.value 
-        totalPriceH2.textContent = "Total " + precioTotal + " €"
+        //const priceQuantity = parseInt() null
+        precioTotal += priceH5.value;
+        totalPriceH2.textContent = "Total " + precioTotal + " €";
 
+        productsToReceipt.forEach((product, index) => {
+          if (product.id === Number(productId)) {
+            product.quantity++;
+          }
+        });
       });
 
       decreaseButton.addEventListener("click", function () {
         const currentQuantity = parseInt(quantityP.textContent);
-        
+
+        productsToReceipt.forEach((product, index) => {
+          if (product.id === Number(productId)) {
+            product.quantity--;
+          }
+          if (product.quantity <= 0) {
+            removeProductsFromCartData(productId);
+          }
+        });
+
         // Permitir que la cantidad llegue a 0
         if (currentQuantity > 0) {
           quantityP.textContent = currentQuantity - 1;
-          precioTotal -= priceH5.value // -> precioTotal -= productElement.price
-          totalPriceH2.textContent = "Total " + precioTotal + " €"
+          precioTotal -= priceH5.value; // -> precioTotal -= productElement.price
+          totalPriceH2.textContent = "Total " + precioTotal + " €";
         }
         // Eliminar el producto del carrito si la cantidad llega a 0
         if (parseInt(quantityP.textContent) === 0) {
@@ -119,14 +135,12 @@ export function addToCart(productId) {
             productsToReceipt.splice(index, 1);
           }
         });
-        console.log(productsToReceipt);
       }
 
       document.querySelector("#cart-products").appendChild(cartContainerDiv);
       closeButton.addEventListener("click", function () {
-        
-        precioTotal -= (quantityP.textContent * priceH5.value)
-        totalPriceH2.textContent = "Total " + precioTotal + " €"
+        precioTotal -= quantityP.textContent * priceH5.value;
+        totalPriceH2.textContent = "Total " + precioTotal + " €";
         // Obtener el contenedor del producto y eliminarlo del DOM
         cartContainerDiv.remove();
         removeProductsFromCartData(productId);
@@ -142,8 +156,11 @@ export function addToCart(productId) {
 // Función para ocultar el mensaje de carrito vacío
 function hideEmptyCartMessage() {
   const cartProductMessage = document.querySelector("#cart-products h3");
-  if (cartProductMessage && cartProductMessage.textContent === "Añade un plato a tu menú") {
-    cartProductMessage.style.display = 'none';
+  if (
+    cartProductMessage &&
+    cartProductMessage.textContent === "Añade un plato a tu menú"
+  ) {
+    cartProductMessage.style.display = "none";
   }
 }
 
@@ -156,7 +173,7 @@ function showEmptyCartMessage() {
     emptyMessage.textContent = "Añade un plato a tu menú";
     cartProducts.appendChild(emptyMessage);
   } else {
-    existingMessage.style.display = 'block';
+    existingMessage.style.display = "block";
   }
 }
 
@@ -172,3 +189,5 @@ function checkIfCartIsEmpty() {
 document.addEventListener("DOMContentLoaded", () => {
   checkIfCartIsEmpty();
 });
+
+export { addToCart, productsToReceipt };
