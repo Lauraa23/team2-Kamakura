@@ -97,7 +97,7 @@ const products = [
         name: 'Edamame',
         description: 'Cocinadas al vapor, sazonadas con sal kosher.',
         price: 4.75,
-        category: "entrada"
+        category: "entradas"
     },
     {
         id: 14,
@@ -262,4 +262,4 @@ const products = [
     }
 ];
 
-export {filters, products}
+export {filters, products};
