@@ -111,7 +111,7 @@ function addToCart(productId) {
         // Permitir que la cantidad llegue a 0
         if (currentQuantity > 0) {
           quantityP.textContent = currentQuantity - 1;
-          precioTotal -= priceH5.value; // -> precioTotal -= productElement.price
+          precioTotal -= priceH5.value; 
           totalPriceH2.textContent = "Total " + precioTotal + " €";
         }
         // Eliminar el producto del carrito si la cantidad llega a 0
