@@ -1,4 +1,4 @@
-//Intenta separar los eventos en este archivo.
+
 
 import { createFilterButtons, createProductCards } from "./menu.js";
 import { searchProducts } from "./searcher.js";

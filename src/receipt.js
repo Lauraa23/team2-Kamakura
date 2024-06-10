@@ -1,4 +1,4 @@
-//Aquí intenta poner las funcionalidades del recibo
+
 import { productsToReceipt } from "./cart";
 
 document.getElementById("receipt-product").remove();

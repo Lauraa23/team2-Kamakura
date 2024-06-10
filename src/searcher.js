@@ -1,4 +1,4 @@
-//DEBE buscar los productos por los filtros
+
 
 import { products } from "../assets/data/data.js";
 import { createProductCards } from "./menu.js";

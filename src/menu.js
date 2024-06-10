@@ -1,10 +1,10 @@
 
-//DEBE imprimir en pantalla la información de filtros.
+
 import { filters, products } from "../assets/data/data.js";
 
 export function createFilterButtons() {
   const filtersContainer = document.getElementById("filters");
-  filtersContainer.innerHTML = ""; // Limpiar los botones existentes
+  filtersContainer.innerHTML = "";
 
   filters.forEach((filter) => {
     const button = document.createElement("button");
@@ -13,7 +13,7 @@ export function createFilterButtons() {
     filtersContainer.appendChild(button);
   });
 }
-//DEBE imprimir en pantalla los productos, con su Título, descripción y precio en € y botón de añadir.
+
 
 export function createProductCards(productArray) {
   const productsContainer = document.getElementById("products");
@@ -38,7 +38,7 @@ export function createProductCards(productArray) {
     const addButton = document.createElement("button");
     addButton.className = "add-button";
     addButton.textContent = "Añadir";
-    addButton.setAttribute("data-id", product.id);//añadí(M)
+    addButton.setAttribute("data-id", product.id);
 
     priceContainer.appendChild(price);
     priceContainer.appendChild(addButton);
